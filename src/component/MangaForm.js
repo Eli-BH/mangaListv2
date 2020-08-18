@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const MangaForm = ({ saveName, saveManga, addManga }) => {
-  const [name, setName] = useState("naruto");
+const MangaForm = ({ saveManga, addManga }) => {
+  const [name, setName] = useState("");
   const [manga, setManga] = useState(null);
 
   useEffect(() => {
@@ -21,6 +21,7 @@ const MangaForm = ({ saveName, saveManga, addManga }) => {
           syn: resManga.synopsis,
           malScore: resManga.score,
           image: resManga.image_url,
+          url: resManga.url,
         };
         setManga(mangaObj);
         console.log(resManga);
@@ -32,7 +33,6 @@ const MangaForm = ({ saveName, saveManga, addManga }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveName(name);
     fetchInfo();
     setName("");
   };
@@ -42,7 +42,7 @@ const MangaForm = ({ saveName, saveManga, addManga }) => {
       onSubmit={handleSubmit}
       className="d-flex"
       style={{
-        width: "45%",
+        width: "100%",
         marginLeft: "auto",
         marginRight: "auto",
         padding: 40,

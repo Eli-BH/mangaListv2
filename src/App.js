@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MangaForm from "./component/MangaForm";
+import Card from "react-bootstrap/Card";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Button from "react-bootstrap/Button";
 
 const App = () => {
   const [chapter, setChapter] = useState("");
-  const [name, setName] = useState("");
   const [manga, setManga] = useState(null);
   const [mangaList, setMangaList] = useState([]);
-
-  useEffect(() => {
-    console.log(mangaList);
-  }, [manga, name, mangaList]);
 
   const updateChapter = (index, chap) => {
     const newList = [...mangaList];
@@ -22,22 +20,25 @@ const App = () => {
     setMangaList(newList);
   };
 
+  const deleteManga = (cd) => {
+    const newList = [...mangaList];
+    newList.splice(cd, 1);
+    setMangaList(newList);
+  };
+
   return (
-    <div>
+    <div className="">
       <div className="jumbotron">
         <h1>Manga List App</h1>
       </div>
-      <div className="container">
-        <MangaForm
-          saveName={setName}
-          saveManga={setManga}
-          addManga={addManga}
-        />
-        <ul>
+      <div style={{ width: "100%" }} className=" mainDiv">
+        <MangaForm saveManga={setManga} addManga={addManga} />
+        <ul className="list" style={{ width: "90%" }}>
           {mangaList.map((mag, index) => {
             return mag ? (
               <li
                 className="list-group-item d-flex justify-content-between align-items-center"
+                style={{ width: "%100" }}
                 key={index}
               >
                 <div>{mag.title}</div>{" "}
@@ -62,22 +63,76 @@ const App = () => {
                     setChapter("");
                   }}
                 >
-                  <input
-                    type="text"
-                    onChange={(e) => setChapter(e.target.value)}
-                    value={mag.chapter}
-                    style={{ width: "15%" }}
-                    placeholder="chp"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      setChapter("");
-                    }}
-                  />
-                  <button className="btn btn-primary" type="submit">
-                    Submit
-                  </button>
+                  <DropdownButton
+                    id="chapterDropdown"
+                    title="Chapter"
+                    variant="outline-primary"
+                    size="sm"
+                    key={index}
+                  >
+                    <div
+                      style={{
+                        width: "70%",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                      className="align-items-center"
+                    >
+                      <input
+                        type="text"
+                        onChange={(e) => setChapter(e.target.value)}
+                        value={chapter}
+                        style={{ width: "55%" }}
+                        placeholder="chp"
+                      />
+                      <button className="btn btn-info btn-sm" type="submit">
+                        ok
+                      </button>
+                    </div>
+                  </DropdownButton>
                 </form>
                 <img src={mag.image} alt={mag.title} width="5%" />
+                <DropdownButton
+                  drop="left"
+                  title="Info"
+                  variant="secondary"
+                  size="sm"
+                  key={index}
+                >
+                  <Card style={{ width: "18rem" }}>
+                    <Card.Img variant="top" src={mag.image} width="150" />
+                    <Card.Body
+                      style={{
+                        overflowY: "scroll",
+                        height: 200,
+                        padding: "1rem",
+                      }}
+                    >
+                      <Card.Title>{mag.title}</Card.Title>
+                      <Card.Text className="overflow-scroll">
+                        {mag.syn}
+                      </Card.Text>
+                    </Card.Body>
+                    <Button
+                      variant="outline-secondary"
+                      href={mag.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Read more at MAL
+                    </Button>
+                  </Card>
+                </DropdownButton>
+                <div>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => deleteManga(index)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </li>
             ) : null;
           })}
