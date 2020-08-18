@@ -116,7 +116,7 @@ const App = () => {
                   id="needed-info"
                 />
                 {/* mobile menu divider */}
-                <IconButton>
+                <IconButton id="info-btn">
                   <MenuBookIcon onClick={handleShow} />
                 </IconButton>
                 <Modal
