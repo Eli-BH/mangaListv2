@@ -140,6 +140,48 @@ const App = () => {
                   <div class="dropdown-divider"></div>
                   {`mal rating ${mag.malScore}`}
                   <div class="dropdown-divider"></div>
+                  <div id="mobile-chp">
+                    {`last read: ${mag.chapter ? mag.chapter : 0}`}
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        updateChapter(index, chapter);
+                        setChapter("");
+                      }}
+                    >
+                      <DropdownButton
+                        id="chapterDropdown"
+                        title="Set Chp"
+                        variant="outline-primary"
+                        drop="up"
+                        size="sm"
+                        key={index}
+                      >
+                        <div
+                          style={{
+                            width: "70%",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                          className="align-items-center"
+                        >
+                          <input
+                            type="text"
+                            onChange={(e) => setChapter(e.target.value)}
+                            value={chapter}
+                            style={{ width: "55%" }}
+                            placeholder="chp"
+                          />
+                          <button className="btn btn-info btn-sm" type="submit">
+                            ok
+                          </button>
+                        </div>
+                      </DropdownButton>
+                    </form>
+                  </div>
+                  <div class="dropdown-divider"></div>
                   <Button
                     variant="outline-secondary"
                     href={mag.url}
